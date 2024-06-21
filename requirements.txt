@@ -1,0 +1,4 @@
+aiogram==3.8.0
+openai==1.35.3
+openai_whisper==20231117
+pydantic_settings==2.3.3
