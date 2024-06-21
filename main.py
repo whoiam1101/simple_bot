@@ -80,7 +80,7 @@ def text2audio(text: str) -> str:
 
 @dp.message()
 async def cmd_start(message: Message):
-    audio_file_name = get_audio(message)
+    audio_file_name = await get_audio(message)
     text = audio2text(audio_file_name)
     answer = get_answer(text)
     audio_file_name = text2audio(answer)
