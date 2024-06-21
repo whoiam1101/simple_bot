@@ -34,7 +34,7 @@ async def get_audio(message: types.message) -> str:
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
     file_path = file.file_path
-    file_name = f"/audio_message/audio{file_id}.mp3"
+    file_name = f"audio/question{file_id}.mp3"
     await bot.download_file(file_path, file_name)
     return file_name
 
@@ -68,7 +68,7 @@ def get_answer(text: str) -> str:
 
 
 def text2audio(text: str) -> str:
-    audio_file_name = f"audio/{str(uuid4())}"
+    audio_file_name = f"audio/{str(uuid4())}.mp3"
     response = client.audio.speech.create(
         model="tts-1",
         voice="onyx",
