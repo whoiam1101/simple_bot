@@ -1,3 +1,4 @@
 .env
 .pytype
 audio/*.mp3
+audio/*.ogg
