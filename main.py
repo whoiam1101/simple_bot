@@ -4,7 +4,7 @@ import whisper
 from uuid import uuid4
 from openai import OpenAI
 from aiogram import Bot, types, Dispatcher
-from aiogram.types import Message, ContentType
+from aiogram.types import Message, FSInputFile
 from pydantic_settings import BaseSettings
 
 
@@ -63,7 +63,8 @@ def get_answer(text: str) -> str:
         run_id=run.id,
     )
     messages = client.beta.threads.messages.list(thread_id=thread.id)
-    return messages.data[-1].content[0].text.value
+    # print(f"role: {messages.data[0].role}\t content: {messages.data[0].content[]}")
+    return messages.data[0].content[0].text.value
 
 
 def text2audio(text: str) -> str:
@@ -83,8 +84,8 @@ async def cmd_start(message: Message):
     text = audio2text(audio_file_name)
     answer = get_answer(text)
     audio_file_name = text2audio(answer)
-    message.answer(answer)
-    message.answer_audio(audio_file_name)
+    audio_file = FSInputFile(audio_file_name)
+    await message.reply_voice(audio_file)
 
 
 async def main() -> None:
