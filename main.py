@@ -29,7 +29,6 @@ assistant = client.beta.assistants.create(
 )
 
 
-@dp.message_handler(content_types=[ContentType.VOICE])
 async def get_audio(message: types.message) -> str:
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
@@ -50,7 +49,7 @@ def audio2text(file_name: str) -> str:
 
 def get_answer(text: str) -> str:
     thread = client.beta.threads.create()
-    message = client.beta.threads.messages.create(
+    client.beta.threads.messages.create(
         thread_id=thread.id,
         role="user",
         content=text,
@@ -64,7 +63,7 @@ def get_answer(text: str) -> str:
         run_id=run.id,
     )
     messages = client.beta.threads.messages.list(thread_id=thread.id)
-    return messages[0].content[0].text.value
+    return messages.data[-1].content[0].text.value
 
 
 def text2audio(text: str) -> str:
@@ -89,6 +88,8 @@ async def cmd_start(message: Message):
 
 
 async def main() -> None:
+    from sys import stderr
+    print("BOT Start", file=stderr)
     await dp.start_polling(bot)
 
 
